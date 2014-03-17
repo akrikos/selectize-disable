@@ -1,0 +1,15 @@
+{
+  "name": "selectize-disable",
+  "repository": "",
+  "readme": "readme.md",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-bower-task": "0.3.4",
+    "matchdep": "0.1.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
