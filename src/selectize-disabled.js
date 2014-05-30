@@ -1,5 +1,13 @@
+/**
+ * Selectize plugin for allowing disabling of options
+ * @param  {Object} options - modify attributes of selectize-disable
+ *   fieldName: sets the name of the field to use to determine if an option should be disabled
+ *     (default is 'disabled')
+ *
+ *   inverse: if true, a option[fieldName] == false will disable the option (by default option[fieldName] == true disables the option)
+ *     (default is false)
+ */
 Selectize.define('option-disable', function(options) {
-  console.log(options);
   var inverseValue = false,
     fieldName = 'disabled';
 
@@ -14,10 +22,8 @@ Selectize.define('option-disable', function(options) {
   // override render to show which elements are disabled
   var originalRender = this.render;
   this.render = function(templateName, data) {
-    console.log('render', data.name, data[fieldName], options.inverse, data[fieldName] ^ options.inverse);
     var html = originalRender.apply(this, arguments);
     if (data[fieldName] ^ options.inverse) {
-      console.log('disabled', data);
       // first instance of option surrounded by quotes or spaces should be the class
       html = html.replace(/(['" ])option(?=['" ])/, '$1option selectize-disabled');
     }
@@ -27,7 +33,7 @@ Selectize.define('option-disable', function(options) {
   // override addItem to not add items that are disabled
   var originalAddItem = this.addItem;
   this.addItem = function(value) {
-    if (this.options.hasOwnProperty(value) && this.options[value].disabled)
+    if (this.options.hasOwnProperty(value) && (this.options[value][fieldName] ^ options.inverse))
       return;
     else
       originalAddItem.apply(this, arguments);
